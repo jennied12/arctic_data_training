@@ -36,9 +36,40 @@ head(annual_esc)
 
 # Visualize Escapement
 
-```{r}
+Total Escapement by Region and Species
+
+```{r, echo = FALSE}
 ggplot(data = annual_esc, mapping = aes(x = Species, y = total_escapement, fill = SASAP.Region)) + geom_col()
 
+```
+
+Kodiak Escapement Over Time Species
+
+```{r}
+#creates a theme with graph settings that you set so that all of your graphs are simliar 'my_theme <- then list your specific theme'
+
+my_theme <- theme_bw() + 
+  theme(legend.position = "bottom")
+
+
+ggplot(data = filter(annual_esc, SASAP.Region == "Kodiak"),
+       mapping = aes(x = Year, y = total_escapement, color = Species)) + 
+  geom_point()+
+  geom_line()+
+  scale_color_brewer(palette = "Dark2") +
+  ylab("Escapement (no.fish)")+
+  ggtitle("Kodiak Salmon Escapement")+
+  my_theme
+  
+```
+
+Escapement over time: all regions
+
+```{r, fig.width = 7,fig.height = 12}
+ggplot(annual_esc, aes(x = Year, y = total_escapement, color = Species)) +
+  geom_point()+
+  geom_line()+
+  facet_wrap(~SASAP.Region, scales = "free_y")
 ```
 
 
